@@ -1,0 +1,34 @@
+{
+    "name": "jorbascrumps/laravel-atomic-lock-middleware",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "middleware",
+        "atomic lock"
+    ],
+    "authors": [
+        {
+            "name": "Chris Wright",
+            "email": "hello@chriswright.dev"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "illuminate/support": "^8 || ^9 || ^10 || ^11 || ^12"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.47",
+        "orchestra/testbench": "^6 || ^7 || ^8 || ^9 || ^10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jorbascrumps\\AtomicLockMiddleware\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        }
+    }
+}
