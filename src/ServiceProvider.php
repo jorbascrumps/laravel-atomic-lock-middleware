@@ -1,5 +1,7 @@
 <?php
 
+namespace Jorbascrumps\AtomicLockMiddleware;
+
 use Illuminate\Routing\Router;
 use Jorbascrumps\AtomicLockMiddleware\Http\Middleware\AtomicLockMiddleware;
 
