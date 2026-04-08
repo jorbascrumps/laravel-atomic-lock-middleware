@@ -24,7 +24,7 @@ class AtomicLockMiddleware implements Stringable
 
     public const ALIAS = 'lock';
 
-    protected ?Lock $lock;
+    protected ?Lock $lock = null;
 
     /**
      * The callback that is responsible for resolving the lock key.
@@ -45,7 +45,7 @@ class AtomicLockMiddleware implements Stringable
     {
         $timeout ??= $this->timeout;
 
-        $key = $this->parseLockKey($key);
+        $key = $this->parseLockKey($request, $key);
 
         $this->lock = Cache::lock($key, $timeout);
 
@@ -66,7 +66,7 @@ class AtomicLockMiddleware implements Stringable
         $this->lock?->release();
     }
 
-    protected function parseLockKey(string $key = null): string
+    protected function parseLockKey(Request $request, string $key = null): string
     {
         $key = rescue(static fn() => unserialize($key, [
             'allowed_classes' => [
@@ -78,7 +78,7 @@ class AtomicLockMiddleware implements Stringable
             $key = app()->call($key->getClosure());
         }
 
-        return $key ?: request()->fingerprint();
+        return $key ?: 'route:' . md5("{$request->method()}:{$request->path()}");
     }
 
     protected function resolveLockKeyUsing(callable $resolver): self
