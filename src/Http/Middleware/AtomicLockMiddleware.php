@@ -12,6 +12,7 @@ use Illuminate\Support\Traits\Conditionable;
 use Laravel\SerializableClosure\SerializableClosure;
 use Stringable;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\LockedHttpException;
 
 /**
  * @method static self lockKey(string $key)
@@ -52,7 +53,7 @@ class AtomicLockMiddleware implements Stringable
         try {
             $this->lock->block($timeout / 2);
         } catch (LockTimeoutException $e) {
-            throw new LockTimeoutException('This action cannot be processed at this time. Please try again later.', previous: $e);
+            throw new LockedHttpException('This action cannot be processed at this time. Please try again later.', previous: $e);
         }
 
         return $next($request);
